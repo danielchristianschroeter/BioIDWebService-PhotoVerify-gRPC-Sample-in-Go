@@ -88,7 +88,6 @@ func init() {
 }
 
 func main() {
-	startTime := time.Now() // Record the start time of the entire process
 	log.SetFlags(0)
 
 	flag.Usage = func() {
@@ -101,24 +100,19 @@ func main() {
 		log.Fatal("Usage: -BWSClientID <BWSClientID> -BWSKey <BWSKey> -photo <photo> -image1 <image1> [-image2 <image2>]")
 	}
 
-	tokenStart := time.Now() // Measure time to generate the token
+	startTime := time.Now() // Record the start time of the entire process
+
 	token, err := generateToken(BWSClientID, BWSKey, 5)
 	if err != nil {
 		log.Fatalf("Failed to generate token: %v", err)
 	}
-	tokenDuration := time.Since(tokenStart)
-	fmt.Printf("Token generation took: %v\n", tokenDuration)
-	
-	clientCreationStart := time.Now() // Measure time to create the authenticated client
+
 	conn, client, err := createAuthenticatedClient()
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer conn.Close()
-	clientCreationDuration := time.Since(clientCreationStart)
-	fmt.Printf("Client creation took: %v\n", clientCreationDuration)
 	
-	fileReadStart := time.Now() // Measure time to read all files
 	var wg sync.WaitGroup
 	wg.Add(2)
 	if image2Path != "" {
@@ -135,7 +129,6 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Printf("File reading took: %v\n", time.Since(fileReadStart))
 
 	if err1 != nil {
 		log.Fatalf("Failed to read live image 1: %v", err1)
@@ -158,7 +151,6 @@ func main() {
 		request.LiveImages = append(request.LiveImages, &pb.ImageData{Image: liveImage2})
 	}
 
-	photoVerifyStart := time.Now() // Measure time to verify photo
 	ctx := context.Background()
 	ctx = metadata.AppendToOutgoingContext(ctx, "authorization", "Bearer "+token)
 
@@ -166,10 +158,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to verify photo: %v", err)
 	}
-	photoVerifyDuration := time.Since(photoVerifyStart)
-	fmt.Printf("Photo verification took: %v\n", photoVerifyDuration)
 
 	// Print the results
+	fmt.Printf("Total execution time: %v\n", time.Since(startTime)) // Print the total execution time
+	fmt.Println()
 	fmt.Printf("Verification Status: %v\n", response.Status)
 	fmt.Printf("Verification Errors: %v\n", response.Errors)
 	fmt.Printf("Verification ImageProperties: %v\n", response.ImageProperties)
@@ -178,6 +170,4 @@ func main() {
 	fmt.Printf("Verification Score: %v\n", response.VerificationScore)
 	fmt.Printf("Verification Live: %v\n", response.Live)
 	fmt.Printf("Verification LivenessScore: %v\n", response.LivenessScore)
-	
-	fmt.Printf("Total execution time: %v\n", time.Since(startTime)) // Print the total execution time
 }

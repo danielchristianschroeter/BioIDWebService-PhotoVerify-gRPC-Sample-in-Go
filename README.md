@@ -15,16 +15,14 @@ You can request trial access on https://bwsportal.bioid.com/register
 2. Execute following command to perform a photo verify with two images:
 
 ```
- .\BioIDWebService-PhotoVerify-gRPC-Sample-In-Go.exe -BWSClientID <BWSClientID> -BWSKey <BWSKey> -photo example_images\photo.jpg -image1 example_images\testimage1.jpg -image2 example_images\testimage2.jpg
+ .\BioIDWebService-PhotoVerify-gRPC-Sample-In-Go -BWSClientID <BWSClientID> -BWSKey <BWSKey> -photo example_images\photo.jpg -image1 example_images\testimage1.jpg -image2 example_images\testimage2.jpg
 ```
 
 Example Output:
 
 ```
-Token generation took: 0s
-Client creation took: 519.8µs
-File reading took: 536.2µs
-Photo verification took: 921.5775ms
+Total execution time: 954.999ms
+
 Verification Status: SUCCEEDED
 Verification Errors: [error_code:"RejectedByPassiveLiveDetection" message:"At least one of the live images seem not to be recorded from a live person." error_code:"RejectedByPassiveLiveDetection" message:"At least one of the live images seem not to be recorded from a live person."]
 Verification ImageProperties: [faces:{left_eye:{x:716.6898478956991 y:295.90328987385425} right_eye:{x:583.7671688344084 y:295.6642189519129} texture_liveness_score:0.36677824126349556} faces:{left_eye:{x:493.984682522074 y:253.9819667801256} right_eye:{x:382.02615043197886 y:250.22897896148734} texture_liveness_score:0.46766824192470974}]
@@ -33,7 +31,6 @@ Verification Level: NOT_RECOGNIZED
 Verification Score: 0
 Verification Live: false
 Verification LivenessScore: 0.46766824192470974
-Total execution time: 923.6721ms
 ```
 
 ### Available command line parameter
