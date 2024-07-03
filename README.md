@@ -19,6 +19,8 @@ You can request trial access on https://bwsportal.bioid.com/register
 ```
 
 Example Output:
+
+```
 Token generation took: 0s
 Client creation took: 519.8µs
 File reading took: 536.2µs
@@ -32,6 +34,7 @@ Verification Score: 0
 Verification Live: false
 Verification LivenessScore: 0.46766824192470974
 Total execution time: 923.6721ms
+```
 
 ### Available command line parameter
 
